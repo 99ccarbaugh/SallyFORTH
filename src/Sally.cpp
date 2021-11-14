@@ -384,12 +384,18 @@ void Sally::doDot(Sally *Sptr) {
 
    p = Sptr->params.top() ;
    Sptr->params.pop() ;
+  
 
    if (p.m_kind == INTEGER) {
       cout << p.m_value ;
-   } else {
+   } 
+   else if (p.m_kind == VARIABLE) {
+	   cout << Sptr->symtab[p.m_text].m_value << endl;
+   }
+   else {
       cout << p.m_text ;
    }
+
 }
 
 
@@ -481,6 +487,7 @@ void Sally::doSET(Sally* Sptr) {
 	Sptr->params.pop();
 
 	Sptr->symtab.insert(pair<string, SymTabEntry>(var.m_text, SymTabEntry(VARIABLE, val.m_value, NULL)));
+	//cout << var.m_text << " = " << Sptr->symtab[var.m_text].m_value;
 }
 
 void Sally::doAT(Sally* Sptr) {
@@ -492,12 +499,13 @@ void Sally::doAT(Sally* Sptr) {
 	Token var = Sptr->params.top();
 	Sptr->params.pop();
 
-	if (Sptr->symtab.find(var.m_text) == Sptr->symtab.end()) {
+	if (var.m_kind == VARIABLE && Sptr->symtab.find(var.m_text) == Sptr->symtab.end()) {
 		cout << "Variable not found" << endl;
 		return;
 	}
 
-	Token *val = new Token(INTEGER, var.m_value, var.m_text);
+	Token *val = new Token(INTEGER, Sptr->symtab[var.m_text].m_value, "");
+
 	Sptr->params.push(*val);
 
 }
