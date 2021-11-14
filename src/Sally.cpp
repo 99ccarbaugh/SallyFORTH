@@ -53,6 +53,13 @@ Sally::Sally(istream& input_stream) :
    symtab["."]    =  SymTabEntry(KEYWORD,0,&doDot) ;
    symtab["SP"]   =  SymTabEntry(KEYWORD,0,&doSP) ;
    symtab["CR"]   =  SymTabEntry(KEYWORD,0,&doCR) ;
+
+   // STACK OPERATIONS
+   symtab["DUP"] = SymTabEntry(KEYWORD, 0, &doDUP);
+   symtab["DROP"] = SymTabEntry(KEYWORD, 0, &doDROP);
+   symtab["SWAP"] = SymTabEntry(KEYWORD, 0, &doSWAP);
+   symtab["ROT"] = SymTabEntry(KEYWORD, 0, &doROT);
+
 }
 
 
@@ -197,7 +204,7 @@ Token Sally::nextToken() {
       if ( !more && tkBuffer.empty() ) {
          throw EOProgram("End of Program") ;
       }
-
+      //std::cout << tkBuffer.front().m_text << std::endl;
       tk = tkBuffer.front() ;
       tkBuffer.pop_front() ;
       return tk ;
@@ -216,7 +223,6 @@ void Sally::mainLoop() {
 
    try {
       while( 1 ) {
-          std::cout << "HelloWord" << std::endl;
          tk = nextToken() ;
 
          if (tk.m_kind == INTEGER || tk.m_kind == STRING) {
@@ -394,3 +400,22 @@ void Sally::doCR(Sally *Sptr) {
 void Sally::doDUMP(Sally *Sptr) {
    // do whatever for debugging
 } 
+
+
+// STACK OPERATIONS 
+
+void Sally::doDUP(Sally* Sptr) {
+    cout << endl;
+}
+
+void Sally::doDROP(Sally* Sptr) {
+    cout << endl;
+}
+
+void Sally::doSWAP(Sally* Sptr) {
+    cout << endl;
+}
+
+void Sally::doROT(Sally* Sptr) {
+    cout << endl;
+}

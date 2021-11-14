@@ -20,7 +20,9 @@ int main() {
    cout << "Enter file name: " ;
    cin >> fname ;
    ifstream ifile(fname.c_str()) ;
-
+   if (ifile) {
+	   std::cout << "File Opened" << endl;
+   }
    Sally S(ifile) ;
 
    S.mainLoop() ;

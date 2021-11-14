@@ -127,6 +127,11 @@ private:
    static void doDot(Sally *Sptr) ;
    static void doSP(Sally *Sptr) ;
    static void doCR(Sally *Sptr) ;
+
+   static void doDUP(Sally* Sptr);
+   static void doDROP(Sally* Sptr);
+   static void doSWAP(Sally* Sptr);
+   static void doROT(Sally* Sptr);
 } ;
 
 #endif
