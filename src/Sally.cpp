@@ -472,6 +472,15 @@ void Sally::doSET(Sally* Sptr) {
 	if (Sptr->params.size() < 1) {
 		throw out_of_range("Need two parameters for SET");
 	}
+
+	Token var, val;
+
+	var = Sptr->params.top();
+	Sptr->params.pop();
+	val = Sptr->params.top();
+	Sptr->params.pop();
+
+	Sptr->symtab.insert(pair<string, SymTabEntry>(var.m_text, SymTabEntry(VARIABLE, val.m_value, NULL)));
 }
 
 void Sally::doAT(Sally* Sptr) {
@@ -479,6 +488,17 @@ void Sally::doAT(Sally* Sptr) {
 	if (Sptr->params.size() < 1) {
 		throw out_of_range("Need one parameter for @");
 	}
+
+	Token var = Sptr->params.top();
+	Sptr->params.pop();
+
+	if (Sptr->symtab.find(var.m_text) == Sptr->symtab.end()) {
+		cout << "Variable not found" << endl;
+		return;
+	}
+
+	Token *val = new Token(INTEGER, var.m_value, var.m_text);
+	Sptr->params.push(*val);
 
 }
 
@@ -488,4 +508,17 @@ void Sally::doUPDATE(Sally* Sptr) {
 		throw out_of_range("Need two parameters for !");
 	}
 
+	Token var, val;
+
+	var = Sptr->params.top();
+	Sptr->params.pop();
+	val = Sptr->params.top();
+	Sptr->params.pop();
+
+	if (Sptr->symtab.find(var.m_text) == Sptr->symtab.end()) {
+		cout << "Variable not found" << endl;
+		return;
+	}
+
+	Sptr->symtab[var.m_text].m_value = val.m_value;
 }
