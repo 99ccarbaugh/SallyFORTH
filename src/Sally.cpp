@@ -54,11 +54,16 @@ Sally::Sally(istream& input_stream) :
    symtab["SP"]   =  SymTabEntry(KEYWORD,0,&doSP) ;
    symtab["CR"]   =  SymTabEntry(KEYWORD,0,&doCR) ;
 
-   // STACK OPERATIONS
+   // STACK OPERATIONS ++++++++++
    symtab["DUP"] = SymTabEntry(KEYWORD, 0, &doDUP);
    symtab["DROP"] = SymTabEntry(KEYWORD, 0, &doDROP);
    symtab["SWAP"] = SymTabEntry(KEYWORD, 0, &doSWAP);
    symtab["ROT"] = SymTabEntry(KEYWORD, 0, &doROT);
+
+   // VARIABLE FUNCTIONS ++++++++++
+   symtab["SET"] = SymTabEntry(KEYWORD, 0, &doSET);
+   symtab["@"] = SymTabEntry(KEYWORD, 0, &doAT);
+   symtab["!"] = SymTabEntry(KEYWORD, 0, &doUPDATE);
 
 }
 
@@ -402,7 +407,7 @@ void Sally::doDUMP(Sally *Sptr) {
 } 
 
 
-// STACK OPERATIONS 
+// STACK OPERATIONS +++++++++++++++
 
 void Sally::doDUP(Sally* Sptr) {
     
@@ -458,4 +463,29 @@ void Sally::doROT(Sally* Sptr) {
     Sptr->params.push(third);
     
     
+}
+
+// VARAIBLE OPERATIONS +++++++
+
+void Sally::doSET(Sally* Sptr) {
+	
+	if (Sptr->params.size() < 1) {
+		throw out_of_range("Need two parameters for SET");
+	}
+}
+
+void Sally::doAT(Sally* Sptr) {
+
+	if (Sptr->params.size() < 1) {
+		throw out_of_range("Need one parameter for @");
+	}
+
+}
+
+void Sally::doUPDATE(Sally* Sptr) {
+
+	if (Sptr->params.size() < 2) {
+		throw out_of_range("Need two parameters for !");
+	}
+
 }

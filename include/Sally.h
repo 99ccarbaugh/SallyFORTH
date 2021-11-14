@@ -128,10 +128,17 @@ private:
    static void doSP(Sally *Sptr) ;
    static void doCR(Sally *Sptr) ;
 
+   // STACK OPERATIONS ++++++++++++++
    static void doDUP(Sally* Sptr);
    static void doDROP(Sally* Sptr);
    static void doSWAP(Sally* Sptr);
    static void doROT(Sally* Sptr);
+
+   // VARIABLE OPERATIONS ++++++++++++
+   static void doSET(Sally* Sptr);
+   static void doAT(Sally* Sptr);
+   static void doUPDATE(Sally* Sptr);
+
 } ;
 
 #endif
