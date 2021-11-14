@@ -405,17 +405,57 @@ void Sally::doDUMP(Sally *Sptr) {
 // STACK OPERATIONS 
 
 void Sally::doDUP(Sally* Sptr) {
-    cout << endl;
+    
+    if (Sptr->params.size() < 1) {
+        throw out_of_range("Need one parameter for DUP");
+    }
+
+    Sptr->params.push(Sptr->params.top());
+
 }
 
 void Sally::doDROP(Sally* Sptr) {
-    cout << endl;
+    
+    if (Sptr->params.size() < 1) {
+        throw out_of_range("Need one parameter for DROP");
+    }
+
+    Sptr->params.pop();
 }
 
 void Sally::doSWAP(Sally* Sptr) {
-    cout << endl;
+    
+    if (Sptr->params.size() < 2) {
+        throw out_of_range("Need two parameters for SWAP");
+    }
+
+    Token first, second;
+    first = Sptr->params.top();
+    Sptr->params.pop();
+    second = Sptr->params.top();
+    Sptr->params.pop();
+
+    Sptr->params.push(second);
+    Sptr->params.push(first);
 }
 
 void Sally::doROT(Sally* Sptr) {
-    cout << endl;
+    
+    if (Sptr->params.size() < 3) {
+        throw out_of_range("Need three parameters for ROT");
+    }
+
+    Token first, second, third;
+    first = Sptr->params.top();
+    Sptr->params.pop();
+    second = Sptr->params.top();
+    Sptr->params.pop();
+    third = Sptr->params.top();
+    Sptr->params.pop();
+
+    Sptr->params.push(first);
+    Sptr->params.push(second);
+    Sptr->params.push(third);
+    
+    
 }
