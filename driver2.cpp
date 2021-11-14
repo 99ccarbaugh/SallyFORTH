@@ -17,8 +17,11 @@ using namespace std ;
 int main() {
    string fname ;
 
+   string dir = "../sally_files/";
+
    cout << "Enter file name: " ;
    cin >> fname ;
+   fname = dir + fname;
    ifstream ifile(fname.c_str()) ;
    if (ifile) {
 	   std::cout << "File Opened" << endl;
