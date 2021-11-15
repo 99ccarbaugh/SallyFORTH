@@ -637,5 +637,15 @@ void Sally::doGREATER(Sally *Sptr) {
 
 // LOGIC ++++++++++++++
 void Sally::doIFTHEN(Sally* Sptr) {
+	if (Sptr->params.size() < 1) {
+		throw out_of_range("Need one parameter for IFTHEN structure");
+	}
 
+	Token decider = Sptr->params.top();
+	Sptr->params.pop();
+
+	// TRUE
+	if (decider.m_value > 0) {
+
+	}
 }
