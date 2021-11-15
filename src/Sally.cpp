@@ -545,29 +545,87 @@ void Sally::doLESS(Sally *Sptr) {
 	if (Sptr->params.size() < 2) {
 		throw out_of_range("Need two parameters for <");
 	}
+		Token right, left;
+
+		right = Sptr->params.top();
+		Sptr->params.pop();
+		left = Sptr->params.top();
+		Sptr->params.pop();
+
+		Token *val = new Token(INTEGER, (left.m_value < right.m_value), "");
+		Sptr->params.push(*val);
 }
 void Sally::doLESSEQ(Sally *Sptr) {
 	if (Sptr->params.size() < 2) {
 		throw out_of_range("Need two parameters for <=");
 	}
+		Token right, left;
+
+		right = Sptr->params.top();
+		Sptr->params.pop();
+		left = Sptr->params.top();
+		Sptr->params.pop();
+
+		Token *val = new Token(INTEGER, (left.m_value <= right.m_value), "");
+		Sptr->params.push(*val);
 }
 void Sally::doEQUAL(Sally *Sptr) {
 	if (Sptr->params.size() < 2) {
 		throw out_of_range("Need two parameters for ==");
 	}
+
+	Token right, left;
+
+	right = Sptr->params.top();
+	Sptr->params.pop();
+	left = Sptr->params.top();
+	Sptr->params.pop();
+
+	Token *val = new Token(INTEGER, (left.m_value == right.m_value), "");
+	Sptr->params.push(*val);
 }
 void Sally::doNOTEQ(Sally *Sptr) {
 	if (Sptr->params.size() < 2) {
 		throw out_of_range("Need two parameters for !=");
 	}
+
+	Token right, left;
+
+	right = Sptr->params.top();
+	Sptr->params.pop();
+	left = Sptr->params.top();
+	Sptr->params.pop();
+
+	Token *val = new Token(INTEGER, (left.m_value != right.m_value), "");
+	Sptr->params.push(*val);
 }
 void Sally::doGREATEQ(Sally *Sptr) {
 	if (Sptr->params.size() < 2) {
 		throw out_of_range("Need two parameters for >=");
 	}
+
+	Token right, left;
+
+	right = Sptr->params.top();
+	Sptr->params.pop();
+	left = Sptr->params.top();
+	Sptr->params.pop();
+
+	Token *val = new Token(INTEGER, (left.m_value >= right.m_value), "");
+	Sptr->params.push(*val);
 }
 void Sally::doGREATER(Sally *Sptr) {
 	if (Sptr->params.size() < 2) {
 		throw out_of_range("Need two parameters for >");
 	}
+
+	Token right, left;
+
+	right = Sptr->params.top();
+	Sptr->params.pop();
+	left = Sptr->params.top();
+	Sptr->params.pop();
+
+	Token *val = new Token(INTEGER, (left.m_value > right.m_value), "");
+	Sptr->params.push(*val);
 }
