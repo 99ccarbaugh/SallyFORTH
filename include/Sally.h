@@ -139,6 +139,14 @@ private:
    static void doAT(Sally* Sptr);
    static void doUPDATE(Sally* Sptr);
 
+   // COMPARISON OPERATIONS +++++++++
+   static void doLESS(Sally* Sptr);
+   static void doLESSEQ(Sally* Sptr);
+   static void doEQUAL(Sally* Sptr);
+   static void doNOTEQ(Sally* Sptr);
+   static void doGREATEQ(Sally* Sptr);
+   static void doGREATER(Sally* Sptr);
+
 } ;
 
 #endif

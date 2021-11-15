@@ -65,6 +65,14 @@ Sally::Sally(istream& input_stream) :
    symtab["@"] = SymTabEntry(KEYWORD, 0, &doAT);
    symtab["!"] = SymTabEntry(KEYWORD, 0, &doUPDATE);
 
+   // COMPARISON OPERATORS ++++++++++
+   symtab["<"] = SymTabEntry(KEYWORD, 0, &doLESS);
+   symtab["<="] = SymTabEntry(KEYWORD, 0, &doLESSEQ);
+   symtab["=="] = SymTabEntry(KEYWORD, 0, &doEQUAL);
+   symtab["!="] = SymTabEntry(KEYWORD, 0, &doNOTEQ);
+   symtab[">="] = SymTabEntry(KEYWORD, 0, &doGREATEQ);
+   symtab[">"] = SymTabEntry(KEYWORD, 0, &doGREATER);
+
 }
 
 
@@ -475,7 +483,7 @@ void Sally::doROT(Sally* Sptr) {
 
 void Sally::doSET(Sally* Sptr) {
 	
-	if (Sptr->params.size() < 1) {
+	if (Sptr->params.size() < 2) {
 		throw out_of_range("Need two parameters for SET");
 	}
 
@@ -529,4 +537,37 @@ void Sally::doUPDATE(Sally* Sptr) {
 	}
 
 	Sptr->symtab[var.m_text].m_value = val.m_value;
+}
+
+// COMPARISON OPERATIONS ++++++++++++++++
+
+void Sally::doLESS(Sally *Sptr) {
+	if (Sptr->params.size() < 2) {
+		throw out_of_range("Need two parameters for <");
+	}
+}
+void Sally::doLESSEQ(Sally *Sptr) {
+	if (Sptr->params.size() < 2) {
+		throw out_of_range("Need two parameters for <=");
+	}
+}
+void Sally::doEQUAL(Sally *Sptr) {
+	if (Sptr->params.size() < 2) {
+		throw out_of_range("Need two parameters for ==");
+	}
+}
+void Sally::doNOTEQ(Sally *Sptr) {
+	if (Sptr->params.size() < 2) {
+		throw out_of_range("Need two parameters for !=");
+	}
+}
+void Sally::doGREATEQ(Sally *Sptr) {
+	if (Sptr->params.size() < 2) {
+		throw out_of_range("Need two parameters for >=");
+	}
+}
+void Sally::doGREATER(Sally *Sptr) {
+	if (Sptr->params.size() < 2) {
+		throw out_of_range("Need two parameters for >");
+	}
 }
