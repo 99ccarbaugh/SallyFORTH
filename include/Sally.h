@@ -147,6 +147,9 @@ private:
    static void doGREATEQ(Sally* Sptr);
    static void doGREATER(Sally* Sptr);
 
+   // LOGIC ++++++++++
+   static void doIFTHEN(Sally* Sptr);
+
 } ;
 
 #endif

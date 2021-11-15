@@ -73,6 +73,11 @@ Sally::Sally(istream& input_stream) :
    symtab[">="] = SymTabEntry(KEYWORD, 0, &doGREATEQ);
    symtab[">"] = SymTabEntry(KEYWORD, 0, &doGREATER);
 
+   // IFTHEN +++++++++++
+   symtab["IFTHEN"] = SymTabEntry(KEYWORD, 0, &doIFTHEN);
+   symtab["ELSE"] = SymTabEntry(KEYWORD, 0, NULL);
+   symtab["ENDIF"] = SymTabEntry(KEYWORD, 0, NULL);
+
 }
 
 
@@ -628,4 +633,9 @@ void Sally::doGREATER(Sally *Sptr) {
 
 	Token *val = new Token(INTEGER, (left.m_value > right.m_value), "");
 	Sptr->params.push(*val);
+}
+
+// LOGIC ++++++++++++++
+void Sally::doIFTHEN(Sally* Sptr) {
+
 }
