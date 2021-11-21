@@ -147,7 +147,13 @@ private:
    static void doGREATEQ(Sally* Sptr);
    static void doGREATER(Sally* Sptr);
 
-   // LOGIC ++++++++++
+   // LOGIC OPERATIONS ++++++++++++
+   static void doAND(Sally* Sptr);
+   static void doOR(Sally* Sptr);
+   static void doNOT(Sally* Sptr);
+
+
+   // IFTHEN ++++++++++
    static void doIFTHEN(Sally* Sptr);
 
 } ;

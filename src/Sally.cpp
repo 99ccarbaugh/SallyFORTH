@@ -73,6 +73,11 @@ Sally::Sally(istream& input_stream) :
    symtab[">="] = SymTabEntry(KEYWORD, 0, &doGREATEQ);
    symtab[">"] = SymTabEntry(KEYWORD, 0, &doGREATER);
 
+   // LOGIC OPERATIONS
+   symtab["AND"] = SymTabEntry(KEYWORD, 0, &doAND);
+   symtab["OR"] = SymTabEntry(KEYWORD, 0, &doOR);
+   symtab["NOT"] = SymTabEntry(KEYWORD, 0, &doNOT);
+
    // IFTHEN +++++++++++
    symtab["IFTHEN"] = SymTabEntry(KEYWORD, 0, &doIFTHEN);
    symtab["ELSE"] = SymTabEntry(KEYWORD, 0, NULL);
@@ -636,6 +641,66 @@ void Sally::doGREATER(Sally *Sptr) {
 }
 
 // LOGIC ++++++++++++++
+void Sally::doAND(Sally* Sptr) {
+
+	if (Sptr->params.size() < 2) {
+		throw out_of_range("Need two parameters for AND");
+	}
+
+	Token first, second;
+
+	first = Sptr->params.top();
+	Sptr->params.pop();
+	second = Sptr->params.top();
+	Sptr->params.pop();
+
+	Token *result = new Token(INTEGER, (first.m_value && second.m_value), "");
+
+	Sptr->params.push(*result);
+
+}
+
+void Sally::doOR(Sally* Sptr) {
+
+	if (Sptr->params.size() < 2) {
+		throw out_of_range("Need two parameters for OR");
+	}
+
+	Token first, second;
+
+	first = Sptr->params.top();
+	Sptr->params.pop();
+	second = Sptr->params.top();
+	Sptr->params.pop();
+
+	Token *result = new Token(INTEGER, (first.m_value || second.m_value), "");
+
+	Sptr->params.push(*result);
+}
+
+void Sally::doNOT(Sally* Sptr) {
+
+	if (Sptr->params.size() < 1) {
+		throw out_of_range("Need one parameters for NOT");
+	}
+
+	Token val;
+
+	val = Sptr->params.top();
+	Sptr->params.pop();
+
+	if (val.m_value > 0) {
+		val.m_value = 0;
+	}
+	else {
+		val.m_value = 1;
+	}
+
+	Sptr->params.push(val);
+}
+
+
+
 void Sally::doIFTHEN(Sally* Sptr) {
 	if (Sptr->params.size() < 1) {
 		throw out_of_range("Need one parameter for IFTHEN structure");
