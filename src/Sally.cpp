@@ -427,7 +427,9 @@ void Sally::doCR(Sally *Sptr) {
 }
 
 void Sally::doDUMP(Sally *Sptr) {
-   // do whatever for debugging
+	for (list<Token>::iterator it = Sptr->tkBuffer.begin(); it != Sptr->tkBuffer.end(); it++) {
+		cout << "NEXT: " << it->m_value << " TYPE: " << it->m_kind << " TEXT: " << it->m_text << endl;
+   }
 } 
 
 
@@ -705,12 +707,24 @@ void Sally::doIFTHEN(Sally* Sptr) {
 	if (Sptr->params.size() < 1) {
 		throw out_of_range("Need one parameter for IFTHEN structure");
 	}
+	Sptr->symtab["DUMP"].m_dothis(Sptr);
 
 	Token decider = Sptr->params.top();
 	Sptr->params.pop();
 
-	// TRUE
-	if (decider.m_value > 0) {
+	Token next = Sptr->nextToken();
 
+	cout << "Decider: " << decider.m_value << " TYPE: " << decider.m_kind << endl;
+	cout << "NEXT: " << next.m_value << " TYPE: " << next.m_kind << " TEXT: " << next.m_kind << endl;
+
+	// FALSE
+	if (decider.m_value < 1) {
+		while (next.m_text != "ELSE") {
+			cout << "NEXT: " << next.m_value << " TYPE: " << next.m_kind << " TEXT: " << next.m_text << endl;
+			next = Sptr->nextToken();
+		}
 	}
+
+	
+
 }

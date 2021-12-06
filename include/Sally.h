@@ -47,9 +47,8 @@ public:
 // type of a C++ function that does the work 
 // of a Sally Forth operation.
 //
-class Sally ; 
-typedef void (* operation_t)(Sally *Sptr) ;
-
+class Sally;
+	typedef void(*operation_t)(Sally *Sptr);
 
 
 // entry in the symbol table has this type
@@ -155,6 +154,8 @@ private:
 
    // IFTHEN ++++++++++
    static void doIFTHEN(Sally* Sptr);
+   //static void doELSE(Sally* Sptr);
+   //static void doENDIF(Sally* Sptr);
 
 } ;
 
