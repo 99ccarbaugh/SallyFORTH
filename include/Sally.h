@@ -161,6 +161,10 @@ private:
    static void doELSE(Sally* Sptr);
    static void doENDIF(Sally* Sptr);
 
+   // DO UNTIL ++++++++++
+   static void doDO(Sally* Sptr);
+   static void doUNTIL(Sally* Sptr);
+
 } ;
 
 #endif

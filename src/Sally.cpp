@@ -83,6 +83,10 @@ Sally::Sally(istream& input_stream) :
    symtab["ELSE"] = SymTabEntry(KEYWORD, 0, &doELSE);
    symtab["ENDIF"] = SymTabEntry(KEYWORD, 0, &doENDIF);
 
+   // DOUNTIL +++++++++++
+   symtab["DO"] = SymTabEntry(KEYWORD, 0, &doDO);
+   symtab["UNTIL"] = SymTabEntry(KEYWORD, 0, &doUNTIL);
+
 }
 
 
@@ -740,35 +744,6 @@ void Sally::doIFTHEN(Sally* Sptr) {
 		}
 
 	}
-	
-	/*
-	if (Sptr->params.size() < 1) {
-		throw out_of_range("Need one parameter for IFTHEN structure");
-	}
-	
-
-	Token decider = Sptr->params.top();
-	Sptr->params.pop();
-	Sptr->symtab["DUMP"].m_dothis(Sptr);
-	Token next = Sptr->nextToken();
-	Sptr->symtab["DUMP"].m_dothis(Sptr);
-	cout << "Decider: " << decider.m_value << " TYPE: " << decider.m_kind << endl;
-	cout << "First: " << next.m_value << " TYPE: " << next.m_kind << " TEXT: " << next.m_text << endl;
-
-	string comp = "ELSE";
-
-	// FALSE
-	if (decider.m_value <= 0) {
-		cout << "Loop State: " << next.m_text.compare(comp) << endl;
-		while (next.m_text.compare(comp) == -1) {
-			cout << "NEXT: " << next.m_value << " TYPE: " << next.m_kind << " TEXT: " << next.m_text << endl;
-			cout << "tkbuffer size: " << Sptr->tkBuffer.size() << endl;
-			Sptr->tkBuffer.pop_front();
-			next = Sptr->tkBuffer.front();
-		}
-	}
-
-	*/
 
 }
 
@@ -809,6 +784,13 @@ void Sally::doELSE(Sally* Sptr) {
 }
 
 void Sally::doENDIF(Sally* Sptr) {
+	// Does Nothing
+}
 
+void Sally::doDO(Sally* Sptr) {
+	Sptr->record = true;
+}
+
+void Sally::doUNTIL(Sally* Sptr) {
 
 }
