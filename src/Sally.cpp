@@ -80,8 +80,8 @@ Sally::Sally(istream& input_stream) :
 
    // IFTHEN +++++++++++
    symtab["IFTHEN"] = SymTabEntry(KEYWORD, 0, &doIFTHEN);
-   symtab["ELSE"] = SymTabEntry(KEYWORD, 0, NULL);
-   symtab["ENDIF"] = SymTabEntry(KEYWORD, 0, NULL);
+   symtab["ELSE"] = SymTabEntry(KEYWORD, 0, &doELSE);
+   symtab["ENDIF"] = SymTabEntry(KEYWORD, 0, &doENDIF);
 
 }
 
@@ -227,7 +227,6 @@ Token Sally::nextToken() {
       if ( !more && tkBuffer.empty() ) {
          throw EOProgram("End of Program") ;
       }
-      //std::cout << tkBuffer.front().m_text << std::endl;
       tk = tkBuffer.front() ;
       tkBuffer.pop_front() ;
       return tk ;
@@ -426,9 +425,13 @@ void Sally::doCR(Sally *Sptr) {
    cout << endl ;
 }
 
+// DUMP DATA STRUCTS +++++++++++++++
+
 void Sally::doDUMP(Sally *Sptr) {
+
+	cout << "TKBUFFER: " << endl;
 	for (list<Token>::iterator it = Sptr->tkBuffer.begin(); it != Sptr->tkBuffer.end(); it++) {
-		cout << "NEXT: " << it->m_value << " TYPE: " << it->m_kind << " TEXT: " << it->m_text << endl;
+		cout << "TOKEN: " << it->m_value << " TYPE: " << it->m_kind << " TEXT: " << it->m_text << endl;
    }
 } 
 
@@ -704,27 +707,108 @@ void Sally::doNOT(Sally* Sptr) {
 
 
 void Sally::doIFTHEN(Sally* Sptr) {
+	Token tk = Sptr->params.top();
+	if (Sptr->params.size() < 1) {
+		throw out_of_range("Need a parameter to represent a boolean.");
+	}
+
+	int ifs = 1;
+	int elses = 0;
+
+	// when IFTHEN evaluates false
+	if (tk.m_value <= 0) {
+		tk = Sptr->nextToken();
+		// adds to buffer similar to how mainloop does when recording
+		if (Sptr->record) {
+			Sptr->savedBuffer.push_back(tk);
+		}
+		Sptr->params.pop();
+		while ((ifs != elses) || (tk.m_text != "ELSE")) {
+			tk = Sptr->nextToken();
+			// adds to saved buffer when recording
+			if (Sptr->record) {
+				Sptr->savedBuffer.push_back(tk);
+			}
+			// checks for interior IFTHENs and ELSEs
+			if (tk.m_text == "IFTHEN") {
+				ifs++;
+			}
+			if (tk.m_text == "ELSE") {
+				elses++;
+			}
+
+		}
+
+	}
+	
+	/*
 	if (Sptr->params.size() < 1) {
 		throw out_of_range("Need one parameter for IFTHEN structure");
 	}
-	Sptr->symtab["DUMP"].m_dothis(Sptr);
+	
 
 	Token decider = Sptr->params.top();
 	Sptr->params.pop();
-
+	Sptr->symtab["DUMP"].m_dothis(Sptr);
 	Token next = Sptr->nextToken();
-
+	Sptr->symtab["DUMP"].m_dothis(Sptr);
 	cout << "Decider: " << decider.m_value << " TYPE: " << decider.m_kind << endl;
-	cout << "NEXT: " << next.m_value << " TYPE: " << next.m_kind << " TEXT: " << next.m_kind << endl;
+	cout << "First: " << next.m_value << " TYPE: " << next.m_kind << " TEXT: " << next.m_text << endl;
+
+	string comp = "ELSE";
 
 	// FALSE
-	if (decider.m_value < 1) {
-		while (next.m_text != "ELSE") {
+	if (decider.m_value <= 0) {
+		cout << "Loop State: " << next.m_text.compare(comp) << endl;
+		while (next.m_text.compare(comp) == -1) {
 			cout << "NEXT: " << next.m_value << " TYPE: " << next.m_kind << " TEXT: " << next.m_text << endl;
-			next = Sptr->nextToken();
+			cout << "tkbuffer size: " << Sptr->tkBuffer.size() << endl;
+			Sptr->tkBuffer.pop_front();
+			next = Sptr->tkBuffer.front();
 		}
 	}
 
-	
+	*/
+
+}
+
+void Sally::doELSE(Sally* Sptr) {
+	Token tk = Sptr->params.top();
+	int elses = 1;
+	int endIfs = 0;
+	Sptr->params.pop();
+	// for when IFTHEN evaluates to true
+	if (tk.m_value > 0) {
+		tk = Sptr->nextToken();
+		// saves token when recording
+		if (Sptr->record) {
+			Sptr->savedBuffer.push_back(tk);
+		}
+		string text = tk.m_text;
+		// loops and pops tokens until ENDIF is reached while recording if needed
+		while ((tk.m_text != "ENDIF") || (elses != endIfs)) {
+			tk = Sptr->nextToken();
+			// saves token whe recording
+			if (Sptr->record) {
+				Sptr->savedBuffer.push_back(tk);
+			}
+			text = tk.m_text;
+
+			// checks for interior ENDIFs and ELSEs to manage interior IFTHENs
+			if (tk.m_text == "ENDIF") {
+				endIfs++;
+			}
+			if (tk.m_text == "ELSE") {
+				elses++;
+			}
+
+		}
+	}
+
+
+}
+
+void Sally::doENDIF(Sally* Sptr) {
+
 
 }

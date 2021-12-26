@@ -80,6 +80,10 @@ private:
    //
    istream& istrm ;
 
+   bool record = false;
+
+   // List to hold rcoreded tokens
+   list<Token> savedBuffer;
 
    // Sally Forth operations to be interpreted
    //
@@ -154,8 +158,8 @@ private:
 
    // IFTHEN ++++++++++
    static void doIFTHEN(Sally* Sptr);
-   //static void doELSE(Sally* Sptr);
-   //static void doENDIF(Sally* Sptr);
+   static void doELSE(Sally* Sptr);
+   static void doENDIF(Sally* Sptr);
 
 } ;
 
