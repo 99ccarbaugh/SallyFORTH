@@ -7,7 +7,7 @@
 // Testing IFTHEN ELSE ENDIF
 //
 
-5 7 < 
+5 7 > 
 IFTHEN
    ."Correct!" . CR
 ELSE 
