@@ -251,6 +251,10 @@ void Sally::mainLoop() {
       while( 1 ) {
          tk = nextToken() ;
 
+		 if (record) {
+			 savedBuffer.push_back(tk);
+		 }
+
          if (tk.m_kind == INTEGER || tk.m_kind == STRING) {
 
             // if INTEGER or STRING just push onto stack
@@ -792,5 +796,19 @@ void Sally::doDO(Sally* Sptr) {
 }
 
 void Sally::doUNTIL(Sally* Sptr) {
+	Token p1 = Sptr->params.top();
+	if (Sptr->params.size() < 1) {
+		throw out_of_range("Need a parameter to represent a boolean.");
+	}
+	list<Token> recordBuffer;
+	Sptr->params.pop();
+	// stops the recording
+	Sptr->record = false;
+	// copies
+	recordBuffer = Sptr->savedBuffer;
+	// when param before UNTIL is false, adds the saved tokens back to tkBuffer
+	if (p1.m_value <= 0) {
+		Sptr->tkBuffer.splice(Sptr->tkBuffer.begin(), recordBuffer);
+	}
 
 }
